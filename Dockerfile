@@ -1,4 +1,4 @@
-FROM maven:3.6-jdk-8
+FROM maven:3.6-jdk-8-slim
 
 ENV STOCATOR_VERSION 1.0.31-ibm-sdk
 
@@ -12,6 +12,6 @@ RUN set -ex \
     && cd stocator-${STOCATOR_VERSION} \
     && mvn clean package -Pall-in-one \
     && upper=$(echo ${STOCATOR_VERSION} | awk '{print toupper($0)}') \
-    && cp /stocator-${STOCATOR_VERSION}/target/stocator-${upper}.jar /stocator-${STOCATOR_VERSION}.jar
+    && cp /stocator-${STOCATOR_VERSION}/target/stocator-${upper}.jar /stocator-${STOCATOR_VERSION}/target/stocator-${STOCATOR_VERSION}.jar
 
-CMD ["/bin/bash", "-c", "mkdir --parents /jars; mv stocator-1.0.31-ibm-sdk.jar $_"]
+CMD ["cp", "/stocator-${STOCATOR_VERSION}/target/stocator-${STOCATOR_VERSION}.jar", "/stocator-${STOCATOR_VERSION}.jar"]
