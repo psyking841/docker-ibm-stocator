@@ -6,9 +6,8 @@ WORKDIR /
 
 RUN set -ex \
     && apt-get update -yqq \
-    && apt-get install -yqq --no-install-recommends wget zip unzip \
-    && wget https://github.com/CODAIT/stocator/archive/${STOCATOR_VERSION}.zip \
-    && unzip ${STOCATOR_VERSION}.zip \
+    && mkdir /stocator-${STOCATOR_VERSION} \
+    && curl -L https://api.github.com/repos/CODAIT/stocator/tarball/${STOCATOR_VERSION} | tar zxf - -C /stocator-${STOCATOR_VERSION} --strip=1 \
     && cd stocator-${STOCATOR_VERSION} \
     && mvn clean package -Pall-in-one \
     && upper=$(echo ${STOCATOR_VERSION} | awk '{print toupper($0)}') \
